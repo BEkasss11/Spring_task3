@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Конвертер валют</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        #converter {
+            margin: 50px auto;
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            width: 1200px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: left;
+        }
+
+        #converter2{
+            display: flex;
+            margin: 9px 0;
+        }
+
+        label {
+            margin-bottom: 10px;
+        }
+
+        input, select {
+            width: 35%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        #amount{
+            width: 50%;
+            margin-right: 15px;
+        }
+        #money{
+            width: 25%;
+        }
+
+        #resultKZT, #resultEUR, #resultUSD {
+            width: 92%;
+            padding: 8px;
+            box-sizing: border-box;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="converter">
+    <div for="amount" id="money">
+        <div>Введите сумму:</div>
+        <div id="converter2">
+            <input type="number" id="amount" placeholder="Сумма" oninput="convert()">
+            <select id="currency" onchange="convert()">
+                <option value="KZT">Тенге (KZT)</option>
+                <option value="EUR">Евро (EUR)</option>
+                <option value="USD">Доллар США (USD)</option>
+            </select>
+        </div>
+    </div>
+    <div id="money">
+        <label for="resultKZT">Тенге (KZT):</label>
+        <input type="text" id="resultKZT" readonly>
+    </div>
+
+
+    <div id="money">
+        <label for="resultEUR">Евро (EUR):</label>
+        <input type="text" id="resultEUR" readonly> 
+    </div>
+
+    <div id="money">
+        <label for="resultUSD">Доллар США (USD):</label>
+        <input type="text" id="resultUSD" readonly>
+    </div>
+</div>
+
+<script>
+    function convert() {
+        const amount = parseFloat(document.getElementById('amount').value);
+        const currency = document.getElementById('currency').value;
+
+        const exchangeRates = {
+            "KZT": {"EUR": 0.00197, "USD": 0.00233},
+            "EUR": {"KZT": 507, "USD": 1.18},
+            "USD": {"KZT": 429, "EUR": 0.85}
+        };
+
+        const resultKZT = (amount * exchangeRates[currency]["KZT"]).toFixed(2);
+        const resultEUR = (amount * exchangeRates[currency]["EUR"]).toFixed(2);
+        const resultUSD = (amount * exchangeRates[currency]["USD"]).toFixed(2);
+
+        document.getElementById('resultKZT').value = isNaN(resultKZT) ? '-' : resultKZT + " тенге";
+        document.getElementById('resultEUR').value = isNaN(resultEUR) ? '-' : resultEUR + " евро";
+        document.getElementById('resultUSD').value = isNaN(resultUSD) ? '-' : resultUSD + " долларов";
+    }
+</script>
+
+</body>
+</html>
